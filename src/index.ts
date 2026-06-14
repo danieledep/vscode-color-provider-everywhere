@@ -1,11 +1,11 @@
 import type {
   CancellationToken,
   DocumentColorProvider,
+  ExtensionContext,
   ProviderResult,
   Range as RangeType,
   TextDocument,
 } from 'vscode'
-import { defineExtension, useDisposable } from 'reactive-vscode'
 import {
   Color,
   ColorInformation,
@@ -202,8 +202,8 @@ const provider: DocumentColorProvider = {
   },
 }
 
-const { activate, deactivate } = defineExtension(() => {
-  useDisposable(languages.registerColorProvider('*', provider))
-})
+export function activate(context: ExtensionContext): void {
+  context.subscriptions.push(languages.registerColorProvider('*', provider))
+}
 
-export { activate, deactivate }
+export function deactivate(): void {}
